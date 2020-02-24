@@ -56,11 +56,16 @@ mayortweets <- NULL
 num_tweets_mayors <- NULL
 percent <- NULL
 
-for (i in maytweet$TwitterHandle)
+for (i in maytweet$TwitterHandle){
   mayortweets <- maytweet %>%
     filter(TwitterHandle == "i")
-  num_tweets_mayors[i] <- length(str_split(mayortweets$Text, pattern  = 'police|policing|cops|law enforcement'))
-  percent[i] <- num_tweets_mayors/length(mayortweets$TweetID)
+  num_tweets_mayors <- length(str_split(mayortweets$Text, pattern  = 'police'))
+  percent[i] <- num_tweets_mayors/nrow(mayortweets$TweetID) }
 
 
-
+for (i in maytweet$TwitterHandle){
+  mayortweets <- maytweet[ which(maytweet$TwitterHandle=='i' ), ]
+  if(nrow(mayortweets$TweetID == 0))
+    next 
+  num_tweets_mayors <- length(str_split(mayortweets$Text, pattern  = 'police'))
+  percent[i] <- num_tweets_mayors/nrow(mayortweets$TweetID) }
