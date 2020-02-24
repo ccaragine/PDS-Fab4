@@ -2,7 +2,7 @@ rm(list = ls())
 library(tidyverse)
 
 mayors<-read_csv(file="https://raw.githubusercontent.com/jmontgomery/jmontgomery.github.io/master/PDS/Datasets/Mayors.csv")
-tweets<-read_csv("~/Downloads/Tweets.csv")
+tweets<-read_csv("C:/Users/cmcar/Dropbox/School/Stats/Tweets.csv/Tweets.csv")
 
 #LydaKrewson
 lydatweets = tweets %>%
@@ -32,9 +32,9 @@ sum(str_detect(str_to_lower(lydatweets$Text),pattern = 'police'))
 sum(str_detect(str_to_lower(lydatweets$Text),pattern = 'http'))
 
 
-##ACTIVITY FOR CLASS#####
+#################ACTIVITY FOR CLASS#########################
 
-#1
+#######1
 #number of tweets that mention police
 sum(str_detect(str_to_lower(tweets$Text),pattern = 'police|policing|cops|law enforcement'))
 sum(str_detect(str_to_lower(tweets$Text),pattern = 'black lives matter|blm'))
@@ -43,10 +43,24 @@ sum(str_detect(str_to_lower(tweets$Text),pattern = 'black lives matter|blm'))
 copmatch <- str_detect(str_to_lower(tweets$Text),pattern = 'police|policing|cops|law enforcement')
 blmmatch <- str_detect(str_to_lower(tweets$Text),pattern = 'black lives matter|blm')
 
-#2
+#######2
+# merging data sets
 tweets <- rename(tweets, TwitterHandle=ScreenName)
 mayors$TwitterHandle
 
+maytweet <- merge(mayors, tweets, by="TwitterHandle")
+head(maytweet)  
+
+# percent of tweets containing police for each mayor
+mayortweets <- NULL
+num_tweets_mayors <- NULL
+percent <- NULL
+
+for (i in maytweet$TwitterHandle)
+  mayortweets <- maytweet %>%
+    filter(TwitterHandle == "i")
+  num_tweets_mayors[i] <- length(str_split(mayortweets$Text, pattern  = 'police|policing|cops|law enforcement'))
+  percent[i] <- num_tweets_mayors/length(mayortweets$TweetID)
 
 
 
